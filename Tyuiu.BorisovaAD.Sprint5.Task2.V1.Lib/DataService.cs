@@ -3,7 +3,7 @@ using System.Text;
 using tyuiu.cources.programming.interfaces.Sprint5;
 namespace Tyuiu.BorisovaAD.Sprint5.Task2.V1.Lib
 {
-    public class DataService // : ISprint5Task1V1
+    public class DataService : ISprint5Task2V1
     {
         public string SaveToFileTextData(int[,] matrix)
         {

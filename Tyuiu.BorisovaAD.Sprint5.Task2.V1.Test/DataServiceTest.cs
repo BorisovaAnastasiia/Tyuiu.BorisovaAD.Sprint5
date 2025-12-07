@@ -5,33 +5,24 @@ namespace Tyuiu.BorisovaAD.Sprint5.Task2.V1.Test
     public sealed class DataServiceTest
     {
         [TestMethod]
-        public void ValidSaveToFileTextData()
+        public void ValidSaveAndReplaceOdd()
         {
             DataService ds = new DataService();
 
-            // Тестовый массив
-            int[,] matrix = new int[,]
-            {
-                { 6, 9, 4 },
-                { 7, 2, 4 },
-                { 4, 8, 3 }
-            };
+            int[,] matrix = new int { { 6, 9, 4 }, { 7, 2, 4 }, { 4, 8, 3 } };
 
-            // Ожидаемый результат в файле (с учетом замен нечетных на 0 и формата "; ")
-            string expectedContent = "6; 0; 4\r\n7; 0; 4\r\n4; 8; 0";
+            // Ожидаемый результат: "6;0;4\r\n0;2;4\r\n4;8;0"
+            string expectedFileText = "6;0;4" + Environment.NewLine + "0;2;4" + Environment.NewLine + "4;8;0";
 
-            // Вызываем метод и получаем путь к созданному файлу
-            string path = ds.SaveToFileTextData(matrix);
+            string filePath = ds.SaveAndReplaceOdd(matrix);
 
-            // Проверяем, что файл действительно существует
-            Assert.IsTrue(File.Exists(path));
+            Assert.IsTrue(File.Exists(filePath));
 
-            // Считываем содержимое файла и сравниваем с ожидаемым результатом
-            string actualContent = File.ReadAllText(path);
-            Assert.AreEqual(expectedContent, actualContent);
+            string actualFileText = File.ReadAllText(filePath);
 
-            // Опционально: можно удалить временный файл после теста
-            File.Delete(path);
+            Assert.AreEqual(expectedFileText, actualFileText);
+
+            File.Delete(filePath);
         }
     }
 }

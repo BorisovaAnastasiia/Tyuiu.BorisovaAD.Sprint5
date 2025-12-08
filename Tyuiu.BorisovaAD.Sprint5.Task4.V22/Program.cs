@@ -3,61 +3,43 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.Title = "Спринт #5 | Выполнила: Борисова А. Д. | ИСТНб-23-1";
+        DataService ds = new DataService();
+
+        Console.Title = "Спринт #5 | Выполнил: Борисова А.Д. | ИБКСб-25-1";
         Console.WriteLine("***************************************************************************");
         Console.WriteLine("* Спринт #5                                                               *");
         Console.WriteLine("* Тема: Чтение данных из текстового файла                                 *");
         Console.WriteLine("* Задание #4                                                              *");
         Console.WriteLine("* Вариант #22                                                             *");
-        Console.WriteLine("* Выполнила: Борисова Анастасия Дмитриевна | ИСТНб-23-1                   *");
+        Console.WriteLine("* Выполнил: Борисова А.Д. | ИБКСб-25-1                                    *");
         Console.WriteLine("***************************************************************************");
         Console.WriteLine("* УСЛОВИЕ:                                                                *");
-        Console.WriteLine("* Дан файл с вещественным значением. Прочитать значение из файла и        *");
-        Console.WriteLine("* подставить вместо X в формуле y = x^3 * sin(x) - 4x.                    *");
-        Console.WriteLine("* Вычислить значение по формуле и вернуть полученный результат на консоль.*");
-        Console.WriteLine("* Полученное значение округлить до трёх знаков после запятой.             *");
+        Console.WriteLine("* Дан файл, в котором есть вещественное значение. Прочитать значение      *");
+        Console.WriteLine("* из файла и подставить вместо Х в формуле:                               *");
+        Console.WriteLine("* y = x^3 * sin(x) - 4x                                                   *");
+        Console.WriteLine("* Вычислить значение и вернуть полученный результат на консоль.           *");
+        Console.WriteLine("* Округлить до трёх знаков после запятой.                                 *");
         Console.WriteLine("***************************************************************************");
         Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
         Console.WriteLine("***************************************************************************");
 
-        // Создание пути к файлу
-        string path = @"C:\DataSprint5\InPutDataFileTask4V22.txt";
+        string fileName = "InPutDataFileTask4V22.txt";
+        string path = Path.Combine(Path.GetTempPath(), fileName);
 
-        // Проверка существования файла
-        if (!File.Exists(path))
-        {
-            // Альтернативный вариант: создание временного файла с тестовым значением
-            Console.WriteLine("Файл не найден. Используется тестовый файл во временной папке.");
+        // Записываем тестовое значение в файл (например, 1.0) для демонстрации работы
+        File.WriteAllText(path, "1.0");
 
-            // Создание временного файла с помощью Path.GetTempFileName()
-            path = Path.GetTempFileName();
+        Console.WriteLine($"Данные находятся в файле: {path}");
 
-            // Запись тестового значения в файл (например, 2.5)
-            File.WriteAllText(path, "2.5");
-            Console.WriteLine($"Создан временный файл: {path}");
-            Console.WriteLine($"Содержимое: 2.5");
-        }
-        else
-        {
-            Console.WriteLine($"Файл найден: {path}");
-            string fileContent = File.ReadAllText(path);
-            Console.WriteLine($"Содержимое файла: {fileContent}");
-        }
-
+        Console.WriteLine();
         Console.WriteLine("***************************************************************************");
         Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
         Console.WriteLine("***************************************************************************");
 
-        try
-        {
-            DataService ds = new DataService();
-            double result = ds.LoadFromDataFile(path);
-            Console.WriteLine($"Значение выражения = {result}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка: {ex.Message}");
-        }
+        double result = ds.LoadFromDataFile(path);
+
+        // Форматируем результат до 3 знаков после запятой при выводе
+        Console.WriteLine($"Значение функции y = {result:F3}");
 
         Console.ReadKey();
     }
